@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from communicate import waitClient, sendData
-
+from compress import compress
 # 定义屏幕宽度
 w = 128
 h = 64
@@ -10,7 +10,7 @@ h = 64
 # 转换矩阵，原图像乘这个矩阵之后，每行每8个字节字节合成一个字节，
 # 之后每行都这样
 # 即 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0  转成 255 00
-# 若原图大小为64行128列转为64行
+# 若原图大小为64行128列转为64行16列
 # 原因是Adafruit drawBitmap 需要这样的解构
 def getConvertMat():
     # 每8位 存到一个字节，计算有多少个字节存到b
@@ -38,8 +38,7 @@ while (1):
     _, binaryImg = cv2.threshold(img_gray, 100, 1, 0)
     _, show = cv2.threshold(img_gray, 100, 255, 0)
     bytes_mat = np.dot(binaryImg, operator)
-    sendData(bytes(list(bytes_mat.flat)))
+    sendData(compress(list(bytes_mat.flat)))
     cv2.imshow("capture", binaryImg*255)
-    cv2.waitKey(1)
 cap.release()
 cv2.destroyAllWindows()
