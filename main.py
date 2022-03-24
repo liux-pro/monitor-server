@@ -1,7 +1,3 @@
-# created by Huang Lu
-# 27/08/2016 17:05:45 
-# Department of EE, Tsinghua Univ.
-
 import cv2
 import numpy as np
 import socket
