@@ -42,7 +42,7 @@ def getConvertMatB():
 
 waitClient()
 
-operator = getConvertMat()
+operator = getConvertMatB()
 cap = cv2.VideoCapture("badapple60.mp4")
 
 while (1):
@@ -54,9 +54,8 @@ while (1):
     res = cv2.resize(frame, (w, h), interpolation=cv2.INTER_AREA)
     img_gray = cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
     _, binaryImg = cv2.threshold(img_gray, 100, 1, 0)
-    _, show = cv2.threshold(img_gray, 100, 255, 0)
     # bytes_mat = np.dot(binaryImg, operator)
-    bytes_mat = np.dot(getConvertMatB(), binaryImg)
+    bytes_mat = np.dot(operator, binaryImg)
     sendData(compress(list(bytes_mat.flat)))
     cv2.imshow("capture", binaryImg * 255)
     cv2.waitKey(1)
